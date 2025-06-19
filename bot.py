@@ -10,26 +10,25 @@ from telegram.ext import (
 )
 from dotenv import load_dotenv
 
-# Carga el token desde .env
+# Cargar variables desde .env
 load_dotenv()
 TOKEN = os.getenv("BOT_TOKEN")
 
-# Configura el registro
+# Configurar logging
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
 
 # Comando /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Hola, soy tu asistente de viajes. ¿En qué puedo ayudarte?")
+    await update.message.reply_text("✈️ Hola, soy tu asistente de viajes. ¿A dónde te gustaría ir hoy?")
 
-# Respuesta a texto libre
+# Manejo de texto libre
 async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    texto_usuario = update.message.text
-    respuesta = f"Recibido: {texto_usuario}"
-    await update.message.reply_text(respuesta)
+    texto = update.message.text
+    await update.message.reply_text(f"Recibido: {texto}")
 
-# Main app
+# Arranque de la aplicación
 if __name__ == "__main__":
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
