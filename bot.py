@@ -1,31 +1,27 @@
-import os
-from dotenv import load_dotenv
 from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
-import logging
+from telegram.ext import (
+    ApplicationBuilder,
+    CommandHandler,
+    ContextTypes
+)
+import os
 
-# Cargar variables de entorno
-load_dotenv()
+# Obtener el token desde la variable de entorno
 TOKEN = os.getenv("BOT_TOKEN")
 
-# Configuración de logs
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    level=logging.INFO
-)
+# Definir el manejador para el comando /start
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text("¡Hola! Bienvenido a Fari3l Travel Bot. 🚀")
 
-# Comando /start
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("👋 Hola, soy Fari3l Travel Bot. ¿A dónde querés viajar hoy? ✈️")
-
-# Mensajes de texto generales
-async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    texto = update.message.text
-    await update.message.reply_text(f"📩 Recibido: {texto}")
-
-# Arranque del bot
-if __name__ == '__main__':
+# Crear la aplicación del bot
+def main():
     app = ApplicationBuilder().token(TOKEN).build()
+
+    # Agregar el manejador de comando
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, responder))
+
+    # Ejecutar el bot
     app.run_polling()
+
+if __name__ == '__main__':
+    main()
