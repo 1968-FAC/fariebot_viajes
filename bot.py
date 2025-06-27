@@ -1,27 +1,20 @@
-from telegram import Update
-from telegram.ext import (
-    ApplicationBuilder,
-    CommandHandler,
-    ContextTypes
-)
 import os
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-# Obtener el token desde la variable de entorno
-TOKEN = os.getenv("BOT_TOKEN")
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("¡Hola! Soy tu bot de viajes listo para ayudarte.")
 
-# Definir el manejador para el comando /start
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text("¡Hola! Bienvenido a Fari3l Travel Bot. 🚀")
-
-# Crear la aplicación del bot
 def main():
-    app = ApplicationBuilder().token(TOKEN).build()
+    token = os.environ.get("BOT_TOKEN")
+    if not token:
+        print("❌ BOT_TOKEN no definido en variables de entorno")
+        return
 
-    # Agregar el manejador de comando
+    app = ApplicationBuilder().token(token).build()
     app.add_handler(CommandHandler("start", start))
-
-    # Ejecutar el bot
+    print("🤖 Bot arrancando...")
     app.run_polling()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
