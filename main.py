@@ -1,14 +1,12 @@
 from telegram.ext import ApplicationBuilder, CommandHandler
-import os
 
-TOKEN = os.getenv("BOT_TOKEN")
+TOKEN = 'AQUÍ_TU_TOKEN'
+
+async def start(update, context):
+    await update.message.reply_text('¡Hola! El bot está funcionando.')
 
 app = ApplicationBuilder().token(TOKEN).build()
 
-async def start(update, context):
-    await update.message.reply_text("¡El bot está activo y funcionando!")
+app.add_handler(CommandHandler('start', start))
 
-app.add_handler(CommandHandler("start", start))
-
-if __name__ == "__main__":
-    app.run_polling()
+app.run_polling()
