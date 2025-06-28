@@ -6,9 +6,9 @@ TOKEN = os.getenv("BOT_TOKEN")
 app = ApplicationBuilder().token(TOKEN).build()
 
 async def start(update, context):
-    await update.message.reply_text("¡Bot activo y funcionando!")
+    await update.message.reply_text("¡El bot está activo y funcionando!")
 
 app.add_handler(CommandHandler("start", start))
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run_polling()
